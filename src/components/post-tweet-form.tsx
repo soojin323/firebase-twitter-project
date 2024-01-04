@@ -8,13 +8,21 @@ export default function PostTweetForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [tweet, setTweet] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const maxFileSize = 1 * 1024 * 1024;
+
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTweet(e.target.value);
   };
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
+
     if (files && files.length === 1) {
+      if (files[0].size > maxFileSize) {
+        alert("File is bigger than 1MB");
+        return;
+      }
       setFile(files[0]);
+      //   alert("File uploaded successfully");
     }
   };
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
